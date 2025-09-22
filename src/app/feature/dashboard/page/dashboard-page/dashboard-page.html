@@ -1,0 +1,57 @@
+<nz-layout class="main-layout">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <div class="logo">
+      <img src="img/logo2.png" alt="Logo Empresa" />
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item [routerLink]="['/dashboard/admin/hotel']">
+        <nz-icon nzType="shop" nzTheme="outline" />
+        <span>Hoteles</span>
+      </li>
+      <li nz-menu-item [routerLink]="['/dashboard/admin/restaurant']">
+        <nz-icon nzType="rest" nzTheme="outline" />
+        <span>Restaurantes</span>
+      </li>
+      <li nz-menu-item [routerLink]="['/dashboard/admin/promotions']">
+        <nz-icon nzType="gift" nzTheme="outline" />
+        <span>Promociones</span>
+      </li>
+      <li nz-menu-item [routerLink]="['/dashboard/admin/employees']">
+        <nz-icon nzType="user" nzTheme="outline" />
+        <span>Empleados</span>
+      </li>
+      <li nz-menu-item [routerLink]="['/dashboard/admin/reports']">
+        <nz-icon nzType="bar-chart" nzTheme="outline" />
+        <span>Reportes</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="flex justify-between items-center w-full">
+        <!-- Botón del menú -->
+        <nz-icon
+          class="trigger"
+          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          (click)="isCollapsed = !isCollapsed"
+        ></nz-icon>
+
+        <div class="flex items-center gap-4 pr-6">
+          <div class="flex items-center gap-2">
+            <nz-icon nzType="user"></nz-icon>
+            <span class="font-semibold">Hola, {{ userFirstName }}</span>
+          </div>
+          <button nz-button nzType="default" nzDanger (click)="onLogout()">
+            <nz-icon nzType="logout"></nz-icon> Salir
+          </button>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb> </nz-breadcrumb>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

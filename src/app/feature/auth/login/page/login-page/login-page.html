@@ -1,0 +1,78 @@
+<div class="min-h-screen flex items-center justify-center bg-[#004a58] px-4">
+  <div
+    class="backdrop-blur-md bg-white/30 border border-white/30 shadow-xl rounded-2xl p-6 sm:p-10 md:p-16 lg:p-20 w-full max-w-md flex flex-col items-center"
+  >
+    <!-- Logo -->
+    <div class="mb-6">
+      <img
+        src="img/logo.png"
+        alt="Logo Empresa"
+        class="h-16 sm:h-20 md:h-24 lg:h-28 mx-auto"
+      />
+    </div>
+
+    <!-- Título -->
+    <p
+      class="text-2xl sm:text-3xl md:text-4xl text-white font-extrabold font-nunito mb-6 text-center"
+    >
+      Iniciar Sesión
+    </p>
+
+    <!-- Formulario -->
+    <form
+      nz-form
+      [nzLayout]="'vertical'"
+      [formGroup]="formLogin"
+      (ngSubmit)="login()"
+      class="w-full"
+    >
+      <!-- Input correo -->
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Ingrese un correo válido">
+          <nz-input-group nzPrefixIcon="user">
+            <input
+           nzSize="large"
+              formControlName="email"
+              nz-input
+              placeholder="Correo electrónico"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Input contraseña -->
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Ingrese su contraseña">
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              [type]="passwordVisible ? 'text' : 'password'"
+              formControlName="password"
+              nz-input
+              placeholder="Contraseña"
+            />
+            <nz-icon
+              [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+              nzTheme="outline"
+              nzSuffix
+              (click)="passwordVisible = !passwordVisible"
+              class="cursor-pointer"
+            ></nz-icon>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Botón ingresar -->
+      <div class="mt-6">
+        <button
+          nz-button
+          nzSize="large"
+          nzType="primary"
+          [disabled]="!formLogin.valid"
+          class="w-full py-2 sm:py-3 rounded-lg text-base sm:text-lg"
+        >
+          Ingresar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
