@@ -7,12 +7,12 @@ import { LoginResult } from '../login/model/login-result';
 import { Login } from '../login/model/login';
 import { ApiResponse } from '../../common/model/api-response';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private loginPath = environment.apiUrl + '/v1/login';
+  private refreshTokenPath = environment.apiUrl + '/v1/refresh';
   constructor(private http: HttpClient, private router: Router) {}
 
   /**
@@ -22,11 +22,23 @@ export class AuthService {
    * @returns Observable<LoginResponseDTO> con los datos del usuario autenticado
    */
   public login(body: Login): Observable<ApiResponse<LoginResult>> {
-    return this.http.post<ApiResponse<LoginResult>>(`${this.loginPath}`, body).pipe(
-      tap((resp: ApiResponse<LoginResult>) => {
-        this.saveSession(resp.data!); //guarda en el localstorage la sesion
-      })
-    );
+    return this.http
+      .post<ApiResponse<LoginResult>>(`${this.loginPath}`, body)
+      .pipe(
+        tap((resp: ApiResponse<LoginResult>) => {
+          this.saveSession(resp.data!); //guarda en el localstorage la sesion
+        })
+      );
+  }
+
+  public refreshToken(): Observable<ApiResponse<LoginResult>> {
+    return this.http
+      .post<ApiResponse<LoginResult>>(`${this.refreshTokenPath}`, {})
+      .pipe(
+        tap((resp: ApiResponse<LoginResult>) => {
+          this.saveSession(resp.data!); //guarda en el localstorage la sesion
+        })
+      );
   }
 
   public getUserName(): String {
@@ -47,7 +59,7 @@ export class AuthService {
    * @param resp objeto con la respuesta del backend al iniciar sesión
    */
   private saveSession(resp: LoginResult) {
-    localStorage.setItem(environment.tokenClaimName, resp.user.name);
+    localStorage.setItem(environment.tokenClaimName, resp.token);
     localStorage.setItem(environment.roleClaimName, resp.user.role);
     localStorage.setItem(environment.userClaimId, resp.user.id.toString());
     localStorage.setItem(environment.clientNameClaimName, resp.user.name);

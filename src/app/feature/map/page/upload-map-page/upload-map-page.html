@@ -1,0 +1,86 @@
+<form nz-form [nzLayout]="'vertical'" [formGroup]="form">
+  <nz-form-item>
+    <nz-form-label nzFor="externalId" nzRequired>
+      Identificador externo
+    </nz-form-label>
+    <nz-form-control [nzErrorTip]="externalIdErrorTpl">
+      <nz-input-group nzPrefixIcon="number">
+        <input
+          nz-input
+          id="externalId"
+          formControlName="externalId"
+          placeholder="Ej. 123e4567-e89b-12d3-a456-426614174000"
+        />
+      </nz-input-group>
+      <ng-template #externalIdErrorTpl let-control>
+        <span *ngIf="control.hasError('required')">
+          El identificador externo es obligatorio
+        </span>
+        <span *ngIf="control.hasError('maxlength')">
+          Máximo 255 caracteres
+        </span>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="file" nzRequired>Archivo</nz-form-label>
+    <nz-form-control [nzErrorTip]="fileErrorTpl">
+      <div class="flex flex-col gap-2">
+        <button
+          nz-button
+          nzType="default"
+          type="button"
+          (click)="fileInput.click()"
+        >
+          <nz-icon nzType="upload"></nz-icon>
+          Seleccionar archivo
+        </button>
+        <input
+          #fileInput
+          id="file"
+          type="file"
+          class="hidden"
+          [accept]="acceptedTypes"
+          (change)="onFileChange($event)"
+        />
+        <div
+          *ngIf="selectedFileName"
+          class="rounded border border-dashed border-blue-400 bg-blue-50 px-3 py-2 text-sm flex items-center justify-between gap-3"
+        >
+          <span class="truncate">{{ selectedFileName }}</span>
+          <button nz-button nzType="link" type="button" (click)="removeFile()">
+            <nz-icon nzType="delete"></nz-icon>
+            Quitar
+          </button>
+        </div>
+        <p class="text-xs text-gray-500">
+          Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, JPEG, JPG, PNG, GIF,
+          TIFF. Máximo 50 MB.
+        </p>
+      </div>
+      <ng-template #fileErrorTpl let-control>
+        <span *ngIf="control.hasError('required')">
+          Selecciona un archivo válido
+        </span>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<div *nzModalFooter class="flex justify-end gap-2">
+  <button nz-button type="button" (click)="onCancel()" [disabled]="uploading">
+    Cancelar
+  </button>
+  <button
+    nz-button
+    nzType="primary"
+    type="button"
+    (click)="onSubmit()"
+    [disabled]="uploading"
+    [nzLoading]="uploading"
+  >
+    <nz-icon nzType="cloud-upload"></nz-icon>
+    Subir documento
+  </button>
+</div>

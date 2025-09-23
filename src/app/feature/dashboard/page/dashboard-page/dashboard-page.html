@@ -1,57 +1,124 @@
-<nz-layout class="main-layout">
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <div class="logo">
-      <img src="img/logo2.png" alt="Logo Empresa" />
-    </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item [routerLink]="['/dashboard/admin/hotel']">
-        <nz-icon nzType="shop" nzTheme="outline" />
-        <span>Hoteles</span>
-      </li>
-      <li nz-menu-item [routerLink]="['/dashboard/admin/restaurant']">
-        <nz-icon nzType="rest" nzTheme="outline" />
-        <span>Restaurantes</span>
-      </li>
-      <li nz-menu-item [routerLink]="['/dashboard/admin/promotions']">
-        <nz-icon nzType="gift" nzTheme="outline" />
-        <span>Promociones</span>
-      </li>
-      <li nz-menu-item [routerLink]="['/dashboard/admin/employees']">
-        <nz-icon nzType="user" nzTheme="outline" />
-        <span>Empleados</span>
-      </li>
-      <li nz-menu-item [routerLink]="['/dashboard/admin/reports']">
-        <nz-icon nzType="bar-chart" nzTheme="outline" />
-        <span>Reportes</span>
-      </li>
-    </ul>
+<nz-layout class="main-layout min-h-screen">
+  <!-- SIDEBAR DESKTOP/TABLET -->
+  <nz-sider
+    class="hidden md:block"
+    nzCollapsible
+    [(nzCollapsed)]="isCollapsed"
+    [nzWidth]="240"
+    [nzCollapsedWidth]="80"
+    [nzTrigger]="null"
+  >
+    <a class="logo block p-4" routerLink="/dashboard">
+      @if (!isCollapsed) {
+      <img
+        src="/img/logo-blanco.png"
+        alt="Logo Empresa"
+        class="mx-auto h-20 w-auto object-contain transition-opacity duration-200"
+        aria-label="Ir al inicio"
+      />
+      } @else {
+      <img
+        src="/img/logo-escudo-blanco.png"
+        alt="Logo Empresa (compacto)"
+        class="mx-auto h-8 w-8 object-contain transition-opacity duration-200"
+        aria-label="Ir al inicio"
+      />
+      }
+    </a>
+
+    <ng-container *ngTemplateOutlet="menuTpl"></ng-container>
   </nz-sider>
+
   <nz-layout>
     <nz-header>
-      <div class="flex justify-between items-center w-full">
-        <!-- Botón del menú -->
-        <nz-icon
-          class="trigger"
-          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          (click)="isCollapsed = !isCollapsed"
-        ></nz-icon>
+      <div class="flex justify-between items-center w-full px-3">
+        <button
+          class="md:hidden"
+          (click)="mobileOpen = true"
+          aria-label="Abrir menú"
+        >
+          <nz-icon nzType="menu-unfold"></nz-icon>
+        </button>
 
-        <div class="flex items-center gap-4 pr-6">
-          <div class="flex items-center gap-2">
+        <span class="hidden md:inline-flex">
+          <nz-icon
+            class="trigger cursor-pointer"
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            (click)="isCollapsed = !isCollapsed"
+          ></nz-icon>
+        </span>
+
+        <div class="flex-1 md:flex-none"></div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 hidden sm:inline">
             <nz-icon nzType="user"></nz-icon>
-            <span class="font-semibold">Hola, {{ userFirstName }}</span>
+            <span class="font-semibold hidden sm:inline">
+              Bienvenido, {{ userFirstName }}
+            </span>
           </div>
-          <button nz-button nzType="default" nzDanger (click)="onLogout()">
-            <nz-icon nzType="logout"></nz-icon> Salir
+          <button nz-button nzType="primary" nzDanger (click)="onLogout()">
+            <nz-icon nzType="logout"></nz-icon>
+            Salir
           </button>
         </div>
       </div>
     </nz-header>
-    <nz-content>
-      <nz-breadcrumb> </nz-breadcrumb>
-      <div class="inner-content">
-        <router-outlet></router-outlet>
+
+    <!-- BREADCRUMB + CONTENIDO -->
+    <nz-content class="bg-gray-50">
+      <div class="px-3 md:px-6 py-3 md:py-4">
+        <div class="inner-content rounded-md shadow-sm p-3">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </nz-content>
   </nz-layout>
 </nz-layout>
+
+<!-- DRAWER MÓVIL -->
+<nz-drawer
+  [nzVisible]="mobileOpen"
+  (nzOnClose)="mobileOpen = false"
+  nzPlacement="left"
+  [nzWidth]="260"
+  [nzBodyStyle]="{ padding: 0, backgroundColor: '#0b1a2b', color: '#fff' }"
+  [nzClosable]="true"
+  [nzTitle]="drawerTitle"
+  nzWrapClassName="custom-drawer"
+>
+  <ng-template #drawerTitle>
+    <div class="flex items-center gap-2">
+      <img
+        src="img/logo-blanco.png"
+        alt="Logo Empresa"
+        class="h-10 w-auto object-contain"
+      />
+    </div>
+  </ng-template>
+
+  <ng-container *nzDrawerContent>
+    <ng-container *ngTemplateOutlet="menuTpl"></ng-container>
+  </ng-container>
+</nz-drawer>
+
+<ng-template #menuTpl>
+  <ul
+    nz-menu
+    nzMode="inline"
+    (click)="mobileOpen = false"
+    class="w-full !bg-transparent !text-white"
+  >
+    <!-- Documentos -->
+    <li nz-menu-item [routerLink]="['/dashboard/documents']">
+      <nz-icon nzType="file-text" nzTheme="outline"></nz-icon>
+      <span>Documentos</span>
+    </li>
+
+    <!-- Mapas -->
+    <li nz-menu-item [routerLink]="['/dashboard/maps']">
+      <nz-icon nzType="environment" nzTheme="outline"></nz-icon>
+      <span>Mapas</span>
+    </li>
+  </ul>
+</ng-template>

@@ -15,17 +15,15 @@
 }
 
 .logo {
-  height: 64px;             /* misma altura que el header */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
 }
 
 .logo img {
-  max-height: 100%;         /* que no sobrepase la altura */
-  max-width: 100%;          /* que no se deforme */
-  object-fit: contain;      /* mantiene proporción */
+  max-height: 100%; /* que no sobrepase la altura */
+  max-width: 100%; /* que no se deforme */
+  object-fit: contain; /* mantiene proporción */
 }
 
 nz-header {
@@ -41,6 +39,12 @@ nz-breadcrumb {
   margin: 16px 0;
 }
 
+:host ::ng-deep .ant-layout-sider,
+:host ::ng-deep .ant-menu-inline {
+  border-right: 0 !important;
+  box-shadow: none !important;
+}
+
 .inner-content {
   padding: 24px;
   background: #fff;
@@ -49,4 +53,17 @@ nz-breadcrumb {
 
 nz-footer {
   text-align: center;
+}
+
+::ng-deep .custom-drawer .ant-drawer-header {
+  background-color: #0b1a2b; /* azul */
+  color: #fff; /* texto blanco */
+}
+
+::ng-deep .custom-drawer .ant-drawer-title {
+  color: #fff;
+}
+
+::ng-deep .custom-drawer .ant-drawer-close {
+  color: #fff; /* fuerza la X a blanco */
 }
