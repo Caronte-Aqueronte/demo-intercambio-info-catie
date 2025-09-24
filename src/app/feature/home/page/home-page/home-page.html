@@ -1,0 +1,29 @@
+<div
+  class="min-h-[60vh] px-4 py-6 flex flex-col items-center justify-center gap-4"
+>
+  <!-- Logo -->
+  <img
+    src="img/logo.png"
+    alt="logo"
+    class="w-40 sm:w-52 md:w-60 lg:w-64 h-auto object-contain"
+  />
+
+  <!-- Reloj -->
+  <div class="text-center leading-tight">
+    <div
+      class="font-mono font-extrabold tracking-[0.5px] text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0b3061]"
+    >
+      {{ now | date : "HH:mm:ss" }}
+    </div>
+    <div class="mt-1 text-slate-500 text-xs sm:text-sm md:text-base">
+      {{ now | date : "EEEE, d 'de' MMMM 'de' y" }}
+    </div>
+  </div>
+
+  <!-- Bienvenida -->
+  <h1
+    class="mt-2 text-xl sm:text-2xl md:text-3xl font-black tracking-wide text-slate-900"
+  >
+    Bienvenido
+  </h1>
+</div>
