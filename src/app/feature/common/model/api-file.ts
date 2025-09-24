@@ -8,4 +8,6 @@ export interface ApiFile {
   size: number;
   download_url: string;
   published_at: string;
+  external_id: string;
+  published_by: string;
 }

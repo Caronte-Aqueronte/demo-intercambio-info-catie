@@ -1,3 +1,4 @@
+﻿import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -9,11 +10,12 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { ToastrService } from 'ngx-toastr';
-import { ErrorRenderService } from '../../../common/service/error-render-service';
 import { ApiFile } from '../../../common/model/api-file';
-import { CommonModule } from '@angular/common';
-import { MapService } from '../../service/map-service';
 import { ApiResponse } from '../../../common/model/api-response';
+import { ErrorRenderService } from '../../../common/service/error-render-service';
+import { FileService } from '../../../common/service/file-service';
+import { MapService } from '../../service/map-service';
+import { UploadMapForm } from '../upload-map-form/upload-map-form';
 
 @Component({
   selector: 'app-map-page',
@@ -33,9 +35,6 @@ import { ApiResponse } from '../../../common/model/api-response';
   styleUrl: './map-page.css',
 })
 export class MapPage implements OnInit {
-onDownload(arg0: string) {
-throw new Error('Method not implemented.');
-}
   maps: ApiFile[] = [];
   loading = false;
 
@@ -43,7 +42,8 @@ throw new Error('Method not implemented.');
     private mapService: MapService,
     private toastr: ToastrService,
     private render: ErrorRenderService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private fileService: FileService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +68,22 @@ throw new Error('Method not implemented.');
     });
   }
 
-  onCreateMap() {
-    throw new Error('Method not implemented.');
+  onCreateMap(): void {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Subir mapa',
+      nzContent: UploadMapForm,
+      nzCentered: true,
+      nzWidth: 600,
+    });
+
+    modalRef.afterClose.subscribe((result) => {
+      if (result) {
+        this.fetchMaps();
+      }
+    });
+  }
+
+  onDownload(url: string): void {
+    this.fileService.onDownload(url);
   }
 }

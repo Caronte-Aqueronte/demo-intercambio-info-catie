@@ -1,4 +1,8 @@
-<form nz-form [nzLayout]="'vertical'" [formGroup]="form">
+﻿<form
+  nz-form
+  [nzLayout]="'vertical'"
+  [formGroup]="form"
+>
   <nz-form-item>
     <nz-form-label nzFor="externalId" nzRequired>
       Identificador externo
@@ -27,12 +31,7 @@
     <nz-form-label nzFor="file" nzRequired>Archivo</nz-form-label>
     <nz-form-control [nzErrorTip]="fileErrorTpl">
       <div class="flex flex-col gap-2">
-        <button
-          nz-button
-          nzType="default"
-          type="button"
-          (click)="fileInput.click()"
-        >
+        <button nz-button nzType="default" type="button" (click)="fileInput.click()">
           <nz-icon nzType="upload"></nz-icon>
           Seleccionar archivo
         </button>
@@ -44,10 +43,7 @@
           [accept]="acceptedTypes"
           (change)="onFileChange($event)"
         />
-        <div
-          *ngIf="selectedFileName"
-          class="rounded border border-dashed border-blue-400 bg-blue-50 px-3 py-2 text-sm flex items-center justify-between gap-3"
-        >
+        <div *ngIf="selectedFileName" class="rounded border border-dashed border-blue-400 bg-blue-50 px-3 py-2 text-sm flex items-center justify-between gap-3">
           <span class="truncate">{{ selectedFileName }}</span>
           <button nz-button nzType="link" type="button" (click)="removeFile()">
             <nz-icon nzType="delete"></nz-icon>
@@ -55,8 +51,7 @@
           </button>
         </div>
         <p class="text-xs text-gray-500">
-          Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, JPEG, JPG, PNG, GIF,
-          TIFF. Máximo 50 MB.
+          Formatos permitidos: SHP, GEOJSON, JSON, KML, KMZ, JPG, JPEG, PNG, TIFF. Máximo 50 MB.
         </p>
       </div>
       <ng-template #fileErrorTpl let-control>
@@ -81,6 +76,6 @@
     [nzLoading]="uploading"
   >
     <nz-icon nzType="cloud-upload"></nz-icon>
-    Subir documento
+    Subir mapa
   </button>
 </div>
